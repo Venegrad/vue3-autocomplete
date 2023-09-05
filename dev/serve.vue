@@ -15,6 +15,8 @@
 		<h2 class="gtitle">Values: </h2>
 		<p class="gtext">{{ vvalue }}</p>
 
+		<button @click="vvalue = [...vvalue, ...items]">Add Items</button>
+
 	</section>
 </template>
 
@@ -30,7 +32,8 @@
 		},
 		data() {
 			return {
-				vvalue: [],
+				vvalue: ['A.NET (A#/A sharp)', 'A-0 System', 'A+ (A plus)', 'ABAP'],
+				items: ['A.NET (A#/A sharp)', 'A-0 System', 'A+ (A plus)', 'ABAP'],
 				list: [
 					'A.NET (A#/A sharp)',
 					'A-0 System',

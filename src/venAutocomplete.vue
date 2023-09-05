@@ -1,7 +1,7 @@
 <template>
 	<div class="venAutocomplete" >
 		<div class="venAutocomplete__input" @click="blurNeed">
-			<div class="venAutocomplete__selected" v-for="(item, ind) in modelValue" :key="'vv'+ind">
+			<div class="venAutocomplete__selected" v-for="(item, ind) in innerValue" :key="'vv'+ind">
 				{{  item  }}
 				<div class="venAutocomplete__close" @click="removeIndex(ind)"><span></span></div>
 			</div>
@@ -15,7 +15,7 @@
 				@input="goType"
 				@keydown.enter.prevent="goEnter"
 				@keydown.tab.prevent="goEnter" 
-				@keyup.backspace="removeLast" 
+				@keydown.backspace="removeLast" 
 				class="venAutocomplete__field"
 			/>
 		</div>
@@ -64,22 +64,39 @@
 				default: () => []
 			}
 		},
+		watch: {
+			modelValue(val) {
+				this.innerValue = this.filterModel(val)
+			}
+		},
 		mounted() {
-			
+			this.filterModel(this.modelValue);
+			this.$emit("update:modelValue", this.filterModel(this.modelValue))
 		},
 		data() {
 			return {
-				inputData: null
+				inputData: null,
+				innerValue: this.filterModel(this.modelValue)
 			};
 		},
 		methods: {
+			filterModel(items) {
+				if(!this.disabledSymobols || !items || !items.length) return 
+				const tbt = items.map(vl => {
+					let ks = vl;
+					[...this.disabledSymobols].forEach(el => ks = ks.replaceAll(el, ""))
+					return ks
+				}) 
+				this.innerValue = tbt
+				return tbt
+			},
 			blurNeed() {
 				this.$refs.venAutocomplete.focus()
 			},
 			removeLast() {
-				if(this.inputData || !this.modelValue || !this.modelValue.length) return
+				if(this.inputData || !this.innerValue || !this.innerValue.length) return
 				this.modelValue.pop()
-
+				this.innerValue.pop()
 			},
 			removeIndex(i) {
 				const fst = this.modelValue.filter((el, ind) => ind !== i)
