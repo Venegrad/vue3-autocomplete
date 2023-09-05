@@ -1,16 +1,16 @@
 {
-  "name": "@venegrad/autocomplete",
+  "name": "@venegrad/vue3-autocomplete",
   "version": "1.0.0",
   "description": "Simple autocomplete field for vue3 and nuxt3. Tags, async loading list, dynamic, async, dropdown list.",
   "author": "venegrad <venegrad@gmail.com> (https://venegrad.com/)",
   "license": "MIT",
-  "homepage": "https://github.com/Venegrad/autocomplete#readme",
+  "homepage": "https://github.com/Venegrad/vue3-autocomplete#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Venegrad/autocomplete.git"
+    "url": "https://github.com/Venegrad/vue3-autocomplete.git"
   },
   "bugs": {
-    "url": "https://github.com/Venegrad/autocomplete/issues",
+    "url": "https://github.com/Venegrad/vue3-autocomplete/issues",
     "email": "venegrad@gmail.com"
   },
   "keywords": [
