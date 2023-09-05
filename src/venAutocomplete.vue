@@ -121,7 +121,7 @@
 				// Disable symbols
 				if(this.disabledSymobols) [...this.disabledSymobols].forEach(el => this.inputData = this.inputData.replaceAll(el, ""))
 
-				// Long live if, what do u do, haha
+				// Long live 'if', what do u do, haha
 				if((e.data === "," || (this.inputData && this.inputData.includes(",")) ) && /[^,]/.test(this.inputData)) {
 					this.hendeHoh();
 				} else if (!/[^,]/.test(this.inputData)) {
