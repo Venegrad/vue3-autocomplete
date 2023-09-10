@@ -1,5 +1,5 @@
 <template>
-	<div class="venAutocomplete" >
+	<div class="venAutocomplete" :class="{'venAutocomplete_active': open}" v-outside="closeList">
 		<div class="venAutocomplete__input" @click="blurNeed">
 			<div class="venAutocomplete__selected" v-for="(item, ind) in innerValue" :key="'vv'+ind">
 				{{  item  }}
@@ -15,12 +15,15 @@
 				@input="goType"
 				@keydown.enter.prevent="goEnter"
 				@keydown.tab.prevent="goEnter" 
+				@keydown.down.prevent="goBottom"
+				@keydown.up.prevent="goUp"
+				@keydown.esc.prevent="closeList"
 				@keydown.backspace="removeLast" 
 				class="venAutocomplete__field"
 			/>
 		</div>
-		<div class="venAutocomplete__dropdown">
-
+		<div class="venAutocomplete__dropdown" v-if="open">
+			<div class="venAutocomplete__item" ref="ohThisFuckingIndex" @mouseenter="highlight = ind" :class="{'highlight': highlight === ind}" v-for="(item, ind) in computedList" :key="'gvs'+ind" @click="selectTag(item)">{{  item  }}</div>
 		</div>
 	</div>
 </template>
@@ -43,11 +46,10 @@
 				type: Number,
 				default: 200
 			},
-			minWords: {
-				type: Number,
-				default: 0
+			dublicates: {
+				type: Boolean,
+				default: false
 			},
-
 			placeholder: {
 				type: [String, Number]
 			},
@@ -67,31 +69,111 @@
 		watch: {
 			modelValue(val) {
 				this.innerValue = this.filterModel(val)
+			},
+			open() {
+				this.highlight = 0
+			},
+			inputData() {
+				this.highlight = 0
+			},
+		},
+		computed: {
+			computedList() {
+				let willList = this.list.filter(el => {
+					return el && this.inputData && el.toLowerCase().includes(this.inputData.toLowerCase()) && !this.innerValue.find(vl => vl.toLowerCase() === el.toLowerCase())
+				});
+				return willList
 			}
 		},
-		mounted() {
+		mounted(el, binding) {
 			this.filterModel(this.modelValue);
-			this.$emit("update:modelValue", this.filterModel(this.modelValue))
+			this.$emit("update:modelValue", this.filterModel(this.modelValue));
+			document.addEventListener("click", this.closeHandler)
+		},
+		beforeUnmount() {
+			document.removeEventListener("click", this.closeHandler)
 		},
 		data() {
 			return {
 				inputData: null,
-				innerValue: this.filterModel(this.modelValue)
+				innerValue: this.filterModel(this.modelValue),
+				open: false,
+				highlight: 0
 			};
 		},
+		directives: {
+			outside: {
+				mounted(el, binding) {
+					const handler = (e) => {
+						if (!el.contains(e.target) && el !== e.target) {
+							binding.value(e);
+						}
+					};
+					el.__ClickOutsideHandler__ = handler;
+					document.addEventListener('click', handler);
+				},
+				beforeUnmount(el) {
+					document.removeEventListener('click', el.__ClickOutsideHandler__);
+				},
+				getSSRProps (binding, vnode) {
+					return {}
+				}
+			}
+		},
 		methods: {
+
+			closeHandler($event) {
+				// console.log($event.target.closest(this.$refs.hhhd))
+			},
+			closeList() {
+				this.open = false;
+			},
+			scrolIntoList() {
+				const ref = this.$refs.ohThisFuckingIndex;
+				if(!ref || !ref.length) return;
+
+				const element = ref[this.highlight];
+				element.scrollIntoView({
+					"block": "center"
+				})
+			},
+			goBottom() {
+				if(this.computedList.length > this.highlight + 1) this.highlight++;
+				this.scrolIntoList();
+			},
+			goUp() {
+				if(this.highlight !== 0) this.highlight--;
+				this.scrolIntoList();
+			},
+			selectTag(item) {
+				this.inputData = null;
+				this.innerValue.push(item);
+				this.open = false;
+				this.$emit("update:modelValue", this.filterModel(this.innerValue));
+				this.blurNeed();
+			},
+			uniqueArray(arr) {
+				return  arr.filter((value, index, self) => {
+					const toLower = self.map(el => el.toLowerCase())
+					return toLower.indexOf(value.toLowerCase()) === index;
+				});
+			},
 			filterModel(items) {
-				if(!this.disabledSymobols || !items || !items.length) return 
+				if(!this.disabledSymobols || !items || !items.length) return ;
+				let willArray = [];
 				const tbt = items.map(vl => {
 					let ks = vl;
 					[...this.disabledSymobols].forEach(el => ks = ks.replaceAll(el, ""))
 					return ks
 				}) 
 				this.innerValue = tbt
-				return tbt
+				willArray = tbt;
+				if(!this.dublicates) willArray = this.uniqueArray(willArray)
+				return willArray
 			},
 			blurNeed() {
-				this.$refs.venAutocomplete.focus()
+				this.$refs.venAutocomplete.focus();
+				this.closeList();
 			},
 			removeLast() {
 				if(this.inputData || !this.innerValue || !this.innerValue.length) return
@@ -103,20 +185,34 @@
 				this.$emit('update:modelValue', fst)
 			},
 			goEnter() {
-				this.hendeHoh();
+				if(!this.open) {
+					this.hendeHoh();
+				} else {
+					this.innerValue.push(this.computedList[this.highlight]);
+					this.open = false;
+					this.inputData = null;
+					this.$emit("update:modelValue", this.filterModel(this.innerValue));
+				}
 			},
 			hendeHoh() {
+				let tw = [];
+				if(this.disabledSymobols) tw = this.disabledSymobols
+				const completeLength =  [...tw, ","].forEach(el => this.inputData = this.inputData.replaceAll(el, ""))
+
 				if(!this.inputData || this.inputData.length < this.min || this.inputData.length > this.max) return
 				this.inputData = this.inputData.replaceAll(",","")
 				if(!this.modelValue) {
-					this.$emit('update:modelValue', [this.inputData])
+					this.$emit('update:modelValue', this.filterModel([this.inputData]))
 				} else {
 					const fst = [...this.modelValue, this.inputData]
-					this.$emit('update:modelValue', fst)
+					this.$emit('update:modelValue', this.filterModel(fst))
 				}
 				this.inputData = null
 			},
 			goType(e) {
+
+				// Search items
+				this.open = this.computedList.length > 0
 
 				// Disable symbols
 				if(this.disabledSymobols) [...this.disabledSymobols].forEach(el => this.inputData = this.inputData.replaceAll(el, ""))
@@ -127,6 +223,7 @@
 				} else if (!/[^,]/.test(this.inputData)) {
 					this.inputData = null
 				}
+				if(!this.inputData || !this.inputData.length) this.open = false
 			} 
 		}
 	});
@@ -137,7 +234,26 @@
 	position: relative;
 	width: 100%;
 	box-sizing: border-box;
-	font-family: 'Tahoma';
+	
+	z-index: 5
+}
+
+.venAutocomplete_active {
+	z-index: 6;
+}
+
+.venAutocomplete__dropdown {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	top: 100%;
+	margin-top: 10px;
+	background-color: #222;
+	color: #fff;
+	padding: 10px;
+	max-height: 300px;
+	overflow: auto;
+	border-radius: 10px;
 }
 
 .venAutocomplete * {
@@ -159,6 +275,16 @@
 	transition: all 0.25s ease;
 	&:hover {
 		background-color: rgba(255,255,255,0.2);
+	}
+}
+
+.venAutocomplete__item {
+	padding: 7px 10px;
+	cursor: pointer;
+	border-radius: 8px;
+	transition: all 0.25s ease;
+	&.highlight {
+		background-color: rgba(255,255,255,0.1);
 	}
 }
 

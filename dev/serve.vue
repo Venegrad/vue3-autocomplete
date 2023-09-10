@@ -7,7 +7,7 @@
 			:aviable-space="true"
 			disabled-symobols="#!=&)(/"
 			:max="30"
-			:min="1"
+			:min="3"
 			:min-words="1"
 			v-model="vvalue" 
 		/>
@@ -743,9 +743,10 @@
 
 <style>
 	body {
-		padding: 0;
+		padding: 20px;
 		margin: 0;
 		background-color: #333;
+		font-family: 'Tahoma';
 	}
 
 	.gtitle {
