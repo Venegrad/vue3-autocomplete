@@ -20,6 +20,22 @@ All you need to do is attach a watch event to the v-model value, but if that's n
 - `@open` = return dropdown trigger, opened or closed.
 
 
+## Simple example
+```html
+<venAutocomplete
+  :list="list"
+  placeholder="Write something, and press ',' or 'enter' or 'tab'"
+  disabled-symobols="#!=&)(/"
+  :max="30"
+  :min="3"
+  :dublicates="true"
+  v-model="vvalue"
+  @inputEvent="inputEvent"
+  @changed="changed"
+  @opened="opened"
+/>
+```
+
 
 
 ## Help links: 
