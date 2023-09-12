@@ -1,4 +1,4 @@
-import { defineComponent, resolveDirective, withDirectives, openBlock, createElementBlock, normalizeClass, createElementVNode, Fragment, renderList, createTextVNode, toDisplayString, withKeys, withModifiers, vModelText, createCommentVNode, pushScopeId, popScopeId } from 'vue';
+import { defineComponent, resolveDirective, withDirectives, openBlock, createElementBlock, normalizeClass, createElementVNode, Fragment, renderList, createTextVNode, toDisplayString, withKeys, withModifiers, vModelText, createCommentVNode } from 'vue';
 
 var script = /*#__PURE__*/defineComponent({
   name: 'autocomplete',
@@ -193,9 +193,8 @@ var script = /*#__PURE__*/defineComponent({
   }
 });
 
-const _withScopeId = n => (pushScopeId("data-v-5470dba2"), n = n(), popScopeId(), n);
 const _hoisted_1 = ["onClick"];
-const _hoisted_2 = /*#__PURE__*/_withScopeId(() => /*#__PURE__*/createElementVNode("span", null, null, -1));
+const _hoisted_2 = /*#__PURE__*/createElementVNode("span", null, null, -1);
 const _hoisted_3 = [_hoisted_2];
 const _hoisted_4 = ["placeholder", "maxlength"];
 const _hoisted_5 = {
@@ -261,7 +260,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script.render = render;
-script.__scopeId = "data-v-5470dba2";
 
 // Import vue component
 

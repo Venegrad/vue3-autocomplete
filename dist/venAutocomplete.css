@@ -1,15 +1,14 @@
 
-.venAutocomplete[data-v-5470dba2] {
+.venAutocomplete {
 	position: relative;
 	width: 100%;
 	box-sizing: border-box;
-	
 	z-index: 5
 }
-.venAutocomplete_active[data-v-5470dba2] {
+.venAutocomplete_active {
 	z-index: 6;
 }
-.venAutocomplete__dropdown[data-v-5470dba2] {
+.venAutocomplete__dropdown {
 	position: absolute;
 	left: 0;
 	width: 100%;
@@ -22,10 +21,10 @@
 	overflow: auto;
 	border-radius: 10px;
 }
-.venAutocomplete *[data-v-5470dba2] {
+.venAutocomplete * {
 	box-sizing: border-box;
 }
-.venAutocomplete__close[data-v-5470dba2] {
+.venAutocomplete__close {
 	position: absolute;
 	right: 4px;
 	top: 50%;
@@ -38,20 +37,20 @@
 	height: 22px;
 	border-radius: 50%;
 	transition: all 0.25s ease;
-&[data-v-5470dba2]:hover {
+&:hover {
 		background-color: rgba(255,255,255,0.2);
 }
 }
-.venAutocomplete__item[data-v-5470dba2] {
+.venAutocomplete__item {
 	padding: 7px 10px;
 	cursor: pointer;
 	border-radius: 8px;
 	transition: all 0.25s ease;
-&.highlight[data-v-5470dba2] {
+&.highlight {
 		background-color: rgba(255,255,255,0.1);
 }
 }
-.venAutocomplete__close[data-v-5470dba2]:before, .venAutocomplete__close[data-v-5470dba2]:after {
+.venAutocomplete__close:before, .venAutocomplete__close:after {
 	width: 16px;
 	height: 2px;
 	position: absolute;
@@ -63,13 +62,13 @@
 	margin-left: -8px;
 	content: '';
 }
-.venAutocomplete__close[data-v-5470dba2]:before {
+.venAutocomplete__close:before {
 	transform: rotate(-45deg);
 }
-.venAutocomplete__close[data-v-5470dba2]:after {
+.venAutocomplete__close:after {
 	transform: rotate(45deg);
 }
-.venAutocomplete__input[data-v-5470dba2] {
+.venAutocomplete__input {
 	display: flex;
 	flex-wrap: wrap;
 	border: 2px solid rgba(255,255,255,0.2);
@@ -78,7 +77,7 @@
 	border-radius: 12px;
 	align-items: center;
 }
-.venAutocomplete__selected[data-v-5470dba2] {
+.venAutocomplete__selected {
 	padding: 4px 34px 4px 10px;
 	position: relative;
 	background-color: rgba(255,255,255,0.3);
@@ -90,7 +89,7 @@
 	min-height: 28px;
 	margin: 3px;
 }
-.venAutocomplete__field[data-v-5470dba2] {
+.venAutocomplete__field {
 	width: auto;
 	flex-grow: 1;
 	appearance: none;

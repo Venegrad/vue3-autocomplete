@@ -229,12 +229,11 @@
 	});
 </script>
 
-<style scoped>
+<style>
 .venAutocomplete {
 	position: relative;
 	width: 100%;
 	box-sizing: border-box;
-	
 	z-index: 5
 }
 

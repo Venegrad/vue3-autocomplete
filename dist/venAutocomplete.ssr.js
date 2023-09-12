@@ -189,9 +189,8 @@
       if (!this.inputData || !this.inputData.length) this.open = false;
     }
   }
-});const _withScopeId = n => (vue.pushScopeId("data-v-5470dba2"), n = n(), vue.popScopeId(), n);
-const _hoisted_1 = ["onClick"];
-const _hoisted_2 = /*#__PURE__*/_withScopeId(() => /*#__PURE__*/vue.createElementVNode("span", null, null, -1));
+});const _hoisted_1 = ["onClick"];
+const _hoisted_2 = /*#__PURE__*/vue.createElementVNode("span", null, null, -1);
 const _hoisted_3 = [_hoisted_2];
 const _hoisted_4 = ["placeholder", "maxlength"];
 const _hoisted_5 = {
@@ -254,8 +253,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => _ctx.selectTag(item)
     }, vue.toDisplayString(item), 43, _hoisted_6);
   }), 128))])) : vue.createCommentVNode("", true)], 2)), [[_directive_outside, _ctx.closeList]]);
-}script.render = render;
-script.__scopeId = "data-v-5470dba2";// Import vue component
+}script.render = render;// Import vue component
 
 // Default export is installable instance of component.
 // IIFE injects install function into component, allowing component
