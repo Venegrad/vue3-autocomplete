@@ -36,7 +36,8 @@
 		emits: ['update:modelValue', 'inputEvent', 'changed', 'opened'],
 		props: {
 			disabledSymobols: {
-				type: String
+				type: String,
+				default: "£™¢∞§¶•ª•ªº"
 			},
 			min: {
 				type: Number,
