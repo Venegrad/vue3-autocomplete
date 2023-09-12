@@ -2,6 +2,8 @@
 
 This is a simple library that allows you to input tags into a field, outputting an array. There's the option to disable duplication, asynchronous loading of lists, control props, and much more.
 
+![Vue 3 autocomplete](example.png)
+
 ## Props
 
 - `list`: (Array, ['John', 'Doe']), Default = empty, List of tags for autocomplete.
