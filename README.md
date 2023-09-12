@@ -4,6 +4,7 @@ This is a simple library that allows you to input tags into a field, outputting 
 
 ![Vue 3 autocomplete](example.png)
 
+You can use "tab", "enter", "," to complete tag. And up/down arrow to navagate on list (enter press on list complete tag)
 ## Props
 
 - `list`: (Array, ['John', 'Doe']), Default = empty, List of tags for autocomplete.
