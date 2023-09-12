@@ -5,6 +5,22 @@ This is a simple library that allows you to input tags into a field, outputting 
 ![Vue 3 autocomplete](example.png)
 
 You can use "tab", "enter", "," to complete tag. And up/down arrow to navagate on list (enter press on list complete tag)
+
+## Instaling
+```js
+import vueAutocomplete from "@venegrad/vue3-autocomplete"
+
+export default {
+  components: {
+    vueAutocomplete
+  },
+}
+```
+Css if needed: 
+```
+@import '@venegrad/vue3-autocomplete/dist/venAutocomplete.css'
+```
+
 ## Props
 
 - `list`: (Array, ['John', 'Doe']), Default = empty, List of tags for autocomplete.
