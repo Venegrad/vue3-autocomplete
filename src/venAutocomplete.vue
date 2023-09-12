@@ -33,7 +33,7 @@
 
 	export default /*#__PURE__*/ defineComponent({
 		name: 'autocomplete',
-		emits: ['update:modelValue'],
+		emits: ['update:modelValue', 'inputEvent', 'changed', 'opened'],
 		props: {
 			disabledSymobols: {
 				type: String
@@ -53,10 +53,6 @@
 			placeholder: {
 				type: [String, Number]
 			},
-			aviableSpace: {
-				type: Boolean,
-				default: true
-			},
 			list: {
 				type: Array,
 				default: () => []
@@ -64,17 +60,20 @@
 			modelValue: {
 				type: [Array, String, Number],
 				default: () => []
-			}
+			},
 		},
 		watch: {
 			modelValue(val) {
-				this.innerValue = this.filterModel(val)
+				this.innerValue = this.filterModel(val);
+				this.$emit("changed", this.filterModel(val))
 			},
 			open() {
 				this.highlight = 0
+				this.$emit('opened', this.open)
 			},
 			inputData() {
-				this.highlight = 0
+				this.highlight = 0;
+				this.$emit("inputEvent", this.inputData)
 			},
 		},
 		computed: {

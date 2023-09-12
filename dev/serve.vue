@@ -9,11 +9,18 @@
 			:max="30"
 			:min="3"
 			:min-words="1"
-			v-model="vvalue" 
+			v-model="vvalue"
+			@inputEvent="inputEvent"
+			@changed="changed"
+			@opened="opened"
 		/>
 
 		<h2 class="gtitle">Values: </h2>
-		<p class="gtext">{{ vvalue }}</p>
+		<p class="gtext">V-model: {{ vvalue }}</p>
+		<p class="gtext">Input: {{ inputData }}</p>
+		<p class="gtext">Changed: {{ vchanged }}</p>
+		<p class="gtext">Opened: {{ vopen }}</p>
+
 
 		<button @click="vvalue = [...vvalue, ...items]">Add Items</button>
 
@@ -34,7 +41,7 @@
 			vvalue: {
 				deep: true,
 				handler() {
-					console.log("changed")
+					
 				}
 			}
 		},
@@ -42,6 +49,9 @@
 			return {
 				vvalue: ['A.NET (A#/A sharp)', 'A-0 System', 'A+ (A plus)', 'ABAP'],
 				items: ['A.NET (A#/A sharp)', 'A-0 System', 'A+ (A plus)', 'ABAP'],
+				inputData: null,
+				vchanged: null,
+				vopen: false,
 				list: [
 					'A.NET (A#/A sharp)',
 					'A-0 System',
@@ -736,7 +746,15 @@
 			};
 		},
 		methods: {
-		
+			inputEvent(val) {
+				this.inputData = val;
+			},
+			changed(val) {
+				this.vchanged = new Date();
+			},
+			opened(val) {
+				this.vopen = val;
+			}
 		},
 	});
 </script>
