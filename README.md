@@ -44,7 +44,7 @@ All you need to do is attach a watch event to the v-model value, but if that's n
 <venAutocomplete
   :list="list"
   placeholder="Write something, and press ',' or 'enter' or 'tab'"
-  disabled-symobols="#!=&)(/"
+  disabled-symbols="#!=&)(/"
   :max="30"
   :min="3"
   :dublicates="true"

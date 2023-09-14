@@ -1,6 +1,6 @@
 {
   "name": "@venegrad/vue3-autocomplete",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Simple autocomplete field for vue3 and nuxt3. Tags, async loading list, dynamic, async, dropdown list.",
   "author": "venegrad <venegrad@gmail.com> (https://venegrad.com/)",
   "license": "MIT",
