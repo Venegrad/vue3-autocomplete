@@ -4,9 +4,9 @@ This is a simple library that allows you to input tags into a field, outputting 
 
 ![Vue 3 autocomplete](example.png)
 
-You can use "tab", "enter", "," to complete tag. And up/down arrow to navagate on list (enter press on list complete tag)
+You can use "tab", "enter", "," to complete tag. And up/down arrow to navigate on list (enter press on list complete tag). Press backspace (if input empty) or click on cross, to remove a tag.
 
-## Instaling
+## Installing
 ```js
 import vueAutocomplete from "@venegrad/vue3-autocomplete"
 
@@ -24,7 +24,7 @@ Css if needed:
 ## Props
 
 - `list`: (Array, ['John', 'Doe']), Default = empty, List of tags for autocomplete.
-- `disabledSymobols`: (String, "#!=&)(/"), Default = null, List in string of disabled symbols or letters.
+- `disabledSymbols`: (String, "#!=&)(/"), Default = null, List in string of disabled symbols or letters.
 - `min`: (Number, 1), Default = 1, Minimum length for 1 tag.
 - `max`: (Number, 1), Default = 200, Maximum length for 1 tag.
 - `dublicates`: (Boolean, false), Default = false, Available of disable dublcate tags.

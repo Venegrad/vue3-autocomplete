@@ -35,9 +35,9 @@
 		name: 'autocomplete',
 		emits: ['update:modelValue', 'inputEvent', 'changed', 'opened'],
 		props: {
-			disabledSymobols: {
+			disabledSymbols: {
 				type: String,
-				default: "£™¢∞§¶•ª•ªº"
+				default: ""
 			},
 			min: {
 				type: Number,
@@ -159,11 +159,11 @@
 				});
 			},
 			filterModel(items) {
-				if(!this.disabledSymobols || !items || !items.length) return ;
+				if(!this.disabledSymbols || !items || !items.length) return items;
 				let willArray = [];
 				const tbt = items.map(vl => {
 					let ks = vl;
-					[...this.disabledSymobols].forEach(el => ks = ks.replaceAll(el, ""))
+					[...this.disabledSymbols].forEach(el => ks = ks.replaceAll(el, ""))
 					return ks
 				}) 
 				this.innerValue = tbt
@@ -196,8 +196,10 @@
 			},
 			hendeHoh() {
 				let tw = [];
-				if(this.disabledSymobols) tw = this.disabledSymobols
-				const completeLength =  [...tw, ","].forEach(el => this.inputData = this.inputData.replaceAll(el, ""))
+				if(this.disabledSymbols) {
+					tw = this.disabledSymbols
+					const completeLength =  [...tw, ","].forEach(el => this.inputData = this.inputData.replaceAll(el, ""))
+				}
 
 				if(!this.inputData || this.inputData.length < this.min || this.inputData.length > this.max) return
 				this.inputData = this.inputData.replaceAll(",","")
@@ -215,7 +217,7 @@
 				this.open = this.computedList.length > 0
 
 				// Disable symbols
-				if(this.disabledSymobols) [...this.disabledSymobols].forEach(el => this.inputData = this.inputData.replaceAll(el, ""))
+				if(this.disabledSymbols) [...this.disabledSymbols].forEach(el => this.inputData = this.inputData.replaceAll(el, ""))
 
 				// Long live 'if', what do u do, haha
 				if((e.data === "," || (this.inputData && this.inputData.includes(",")) ) && /[^,]/.test(this.inputData)) {

@@ -5,7 +5,7 @@
 			:list="list"
 			placeholder="Write something, and press ',' or 'enter' or 'tab'"
 			:aviable-space="true"
-
+			disabledSymbols="™£¢∞§¶•ª" 
 			:max="30"
 			:min="3"
 			:min-words="1"
