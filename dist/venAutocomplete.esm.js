@@ -96,6 +96,12 @@ var script = /*#__PURE__*/defineComponent({
     closeList() {
       this.open = false;
     },
+    goOpen() {
+      this.open = true;
+    },
+    goClose() {
+      this.closeList();
+    },
     scrolIntoList() {
       const ref = this.$refs.ohThisFuckingIndex;
       if (!ref || !ref.length) return;

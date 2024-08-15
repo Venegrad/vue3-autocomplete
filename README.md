@@ -38,6 +38,25 @@ All you need to do is attach a watch event to the v-model value, but if that's n
 - `@changed` = return value of v-model when inner array or v-model changed. Starts first time on components mount, and every time when v-model changed.
 - `@open` = return dropdown trigger, opened or closed.
 
+## Open and Close from your component
+```
+<template>
+   <ven-autocomplete ref="ggauto" />
+</template>
+
+<script setup>
+const ggauto = ref()
+
+onMouted(() => {
+  ggauto.value.goOpen();
+  setTimeout(() => {
+    ggauto.value.goClose();
+  }, 5000)
+})
+
+</script>
+```
+
 
 ## Simple example
 ```html

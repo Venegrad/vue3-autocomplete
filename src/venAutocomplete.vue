@@ -121,12 +121,17 @@
 			}
 		},
 		methods: {
-
 			closeHandler($event) {
 				// console.log($event.target.closest(this.$refs.hhhd))
 			},
 			closeList() {
 				this.open = false;
+			},
+			goOpen() {
+				this.open = true;
+			},
+			goClose() {
+				this.closeList()
 			},
 			scrolIntoList() {
 				const ref = this.$refs.ohThisFuckingIndex;
