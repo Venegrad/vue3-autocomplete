@@ -34,7 +34,7 @@ Css if needed:
 ## Events
 All you need to do is attach a watch event to the v-model value, but if that's not enough for you, I've added a few more events.
 
-- `@inputData` = return value of input field, when user typing or pasting something.
+- `@inputEvent` = return value of input field, when user typing or pasting something.
 - `@changed` = return value of v-model when inner array or v-model changed. Starts first time on components mount, and every time when v-model changed.
 - `@open` = return dropdown trigger, opened or closed.
 
