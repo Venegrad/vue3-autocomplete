@@ -130,14 +130,15 @@
       });
     },
     filterModel(items) {
-      if (!this.disabledSymbols || !items || !items.length) return items;
+      if (!items) return items;
+      if (!items.length) return [];
+      if (!this.disabledSymbols) return [...items];
       let willArray = [];
       const tbt = items.map(vl => {
         let ks = vl;
         [...this.disabledSymbols].forEach(el => ks = ks.replaceAll(el, ""));
         return ks;
       });
-      this.innerValue = tbt;
       willArray = tbt;
       if (!this.dublicates) willArray = this.uniqueArray(willArray);
       return willArray;
@@ -148,8 +149,9 @@
     },
     removeLast() {
       if (this.inputData || !this.innerValue || !this.innerValue.length) return;
-      this.modelValue.pop();
-      this.innerValue.pop();
+      const nextValue = this.innerValue.slice(0, -1);
+      this.innerValue = nextValue;
+      this.$emit('update:modelValue', this.filterModel(nextValue));
     },
     removeIndex(i) {
       const fst = this.modelValue.filter((el, ind) => ind !== i);
