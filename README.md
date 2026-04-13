@@ -21,6 +21,21 @@ Css if needed:
 @import '@venegrad/vue3-autocomplete/dist/venAutocomplete.css'
 ```
 
+## Development
+
+This project now targets Node.js 20+ and works on Node 24.
+
+```bash
+yarn install
+yarn dev
+```
+
+To build the package:
+
+```bash
+yarn build:all
+```
+
 ## Props
 
 - `list`: (Array, ['John', 'Doe']), Default = empty, List of tags for autocomplete.

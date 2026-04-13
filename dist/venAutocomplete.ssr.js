@@ -198,14 +198,12 @@
     }
   }
 });const _hoisted_1 = ["onClick"];
-const _hoisted_2 = /*#__PURE__*/vue.createElementVNode("span", null, null, -1);
-const _hoisted_3 = [_hoisted_2];
-const _hoisted_4 = ["placeholder", "maxlength"];
-const _hoisted_5 = {
+const _hoisted_2 = ["placeholder", "maxlength"];
+const _hoisted_3 = {
   key: 0,
   class: "venAutocomplete__dropdown"
 };
-const _hoisted_6 = ["onMouseenter", "onClick"];
+const _hoisted_4 = ["onMouseenter", "onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _directive_outside = vue.resolveDirective("outside");
   return vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", {
@@ -214,9 +212,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }])
   }, [vue.createElementVNode("div", {
     class: "venAutocomplete__input",
-    onClick: _cache[8] || (_cache[8] = function () {
-      return _ctx.blurNeed && _ctx.blurNeed(...arguments);
-    })
+    onClick: _cache[8] || (_cache[8] = (...args) => _ctx.blurNeed && _ctx.blurNeed(...args))
   }, [(vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.innerValue, (item, ind) => {
     return vue.openBlock(), vue.createElementBlock("div", {
       class: "venAutocomplete__selected",
@@ -224,7 +220,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [vue.createTextVNode(vue.toDisplayString(item) + " ", 1), vue.createElementVNode("div", {
       class: "venAutocomplete__close",
       onClick: $event => _ctx.removeIndex(ind)
-    }, _hoisted_3, 8, _hoisted_1)]);
+    }, [...(_cache[9] || (_cache[9] = [vue.createElementVNode("span", null, null, -1)]))], 8, _hoisted_1)]);
   }), 128)), vue.withDirectives(vue.createElementVNode("input", {
     ref: "venAutocomplete",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.inputData = $event),
@@ -232,24 +228,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: _ctx.placeholder,
     type: "text",
     maxlength: _ctx.max,
-    onInput: _cache[1] || (_cache[1] = function () {
-      return _ctx.goType && _ctx.goType(...arguments);
-    }),
-    onKeydown: [_cache[2] || (_cache[2] = vue.withKeys(vue.withModifiers(function () {
-      return _ctx.goEnter && _ctx.goEnter(...arguments);
-    }, ["prevent"]), ["enter"])), _cache[3] || (_cache[3] = vue.withKeys(vue.withModifiers(function () {
-      return _ctx.goEnter && _ctx.goEnter(...arguments);
-    }, ["prevent"]), ["tab"])), _cache[4] || (_cache[4] = vue.withKeys(vue.withModifiers(function () {
-      return _ctx.goBottom && _ctx.goBottom(...arguments);
-    }, ["prevent"]), ["down"])), _cache[5] || (_cache[5] = vue.withKeys(vue.withModifiers(function () {
-      return _ctx.goUp && _ctx.goUp(...arguments);
-    }, ["prevent"]), ["up"])), _cache[6] || (_cache[6] = vue.withKeys(vue.withModifiers(function () {
-      return _ctx.closeList && _ctx.closeList(...arguments);
-    }, ["prevent"]), ["esc"])), _cache[7] || (_cache[7] = vue.withKeys(function () {
-      return _ctx.removeLast && _ctx.removeLast(...arguments);
-    }, ["backspace"]))],
+    onInput: _cache[1] || (_cache[1] = (...args) => _ctx.goType && _ctx.goType(...args)),
+    onKeydown: [_cache[2] || (_cache[2] = vue.withKeys(vue.withModifiers((...args) => _ctx.goEnter && _ctx.goEnter(...args), ["prevent"]), ["enter"])), _cache[3] || (_cache[3] = vue.withKeys(vue.withModifiers((...args) => _ctx.goEnter && _ctx.goEnter(...args), ["prevent"]), ["tab"])), _cache[4] || (_cache[4] = vue.withKeys(vue.withModifiers((...args) => _ctx.goBottom && _ctx.goBottom(...args), ["prevent"]), ["down"])), _cache[5] || (_cache[5] = vue.withKeys(vue.withModifiers((...args) => _ctx.goUp && _ctx.goUp(...args), ["prevent"]), ["up"])), _cache[6] || (_cache[6] = vue.withKeys(vue.withModifiers((...args) => _ctx.closeList && _ctx.closeList(...args), ["prevent"]), ["esc"])), _cache[7] || (_cache[7] = vue.withKeys((...args) => _ctx.removeLast && _ctx.removeLast(...args), ["backspace"]))],
     class: "venAutocomplete__field"
-  }, null, 40, _hoisted_4), [[vue.vModelText, _ctx.inputData]])]), _ctx.open ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_5, [(vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.computedList, (item, ind) => {
+  }, null, 40, _hoisted_2), [[vue.vModelText, _ctx.inputData]])]), _ctx.open ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_3, [(vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.computedList, (item, ind) => {
     return vue.openBlock(), vue.createElementBlock("div", {
       class: vue.normalizeClass(["venAutocomplete__item", {
         'highlight': _ctx.highlight === ind
@@ -259,7 +241,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onMouseenter: $event => _ctx.highlight = ind,
       key: 'gvs' + ind,
       onClick: $event => _ctx.selectTag(item)
-    }, vue.toDisplayString(item), 43, _hoisted_6);
+    }, vue.toDisplayString(item), 43, _hoisted_4);
   }), 128))])) : vue.createCommentVNode("", true)], 2)), [[_directive_outside, _ctx.closeList]]);
 }script.render = render;// Import vue component
 
@@ -280,12 +262,11 @@ var component = /*#__PURE__*/(() => {
 // It's possible to expose named exports when writing components that can
 // also be used as directives, etc. - eg. import { RollupDemoDirective } from 'rollup-demo';
 // export const RollupDemoDirective = directive;
-var namedExports=/*#__PURE__*/Object.freeze({__proto__:null,'default':component});// iife/cjs usage extends esm default export - so import it all
+var namedExports=/*#__PURE__*/Object.freeze({__proto__:null,default:component});// iife/cjs usage extends esm default export - so import it all
 
 // Attach named exports directly to component. IIFE/CJS will
 // only expose one global var, with named exports exposed as properties of
 // that global var (eg. plugin.namedExport)
-Object.entries(namedExports).forEach(_ref => {
-  let [exportName, exported] = _ref;
+Object.entries(namedExports).forEach(([exportName, exported]) => {
   if (exportName !== 'default') component[exportName] = exported;
 });module.exports=component;

@@ -1,6 +1,7 @@
 // rollup.config.js
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import vue from 'rollup-plugin-vue';
 import alias from '@rollup/plugin-alias';
 import commonjs from '@rollup/plugin-commonjs';
@@ -16,12 +17,15 @@ const esbrowserslist = fs.readFileSync('./.browserslistrc')
   .split('\n')
   .filter((entry) => entry && entry.substring(0, 2) !== 'ie');
 
-const babelPresetEnvConfig = require('../babel.config')
-  .presets.filter((entry) => entry[0] === '@babel/preset-env')[0][1];
+const babelPresetEnvConfig = {
+  bugfixes: true,
+  modules: false,
+};
 
 const argv = minimist(process.argv.slice(2));
 
-const projectRoot = path.resolve(__dirname, '..');
+const configDir = path.dirname(fileURLToPath(import.meta.url));
+const projectRoot = path.resolve(configDir, '..');
 
 const baseConfig = {
 	input: 'src/entry.js',

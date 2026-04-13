@@ -202,14 +202,12 @@ var script = /*#__PURE__*/defineComponent({
 });
 
 const _hoisted_1 = ["onClick"];
-const _hoisted_2 = /*#__PURE__*/createElementVNode("span", null, null, -1);
-const _hoisted_3 = [_hoisted_2];
-const _hoisted_4 = ["placeholder", "maxlength"];
-const _hoisted_5 = {
+const _hoisted_2 = ["placeholder", "maxlength"];
+const _hoisted_3 = {
   key: 0,
   class: "venAutocomplete__dropdown"
 };
-const _hoisted_6 = ["onMouseenter", "onClick"];
+const _hoisted_4 = ["onMouseenter", "onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _directive_outside = resolveDirective("outside");
   return withDirectives((openBlock(), createElementBlock("div", {
@@ -218,9 +216,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }])
   }, [createElementVNode("div", {
     class: "venAutocomplete__input",
-    onClick: _cache[8] || (_cache[8] = function () {
-      return _ctx.blurNeed && _ctx.blurNeed(...arguments);
-    })
+    onClick: _cache[8] || (_cache[8] = (...args) => _ctx.blurNeed && _ctx.blurNeed(...args))
   }, [(openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.innerValue, (item, ind) => {
     return openBlock(), createElementBlock("div", {
       class: "venAutocomplete__selected",
@@ -228,7 +224,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [createTextVNode(toDisplayString(item) + " ", 1), createElementVNode("div", {
       class: "venAutocomplete__close",
       onClick: $event => _ctx.removeIndex(ind)
-    }, _hoisted_3, 8, _hoisted_1)]);
+    }, [...(_cache[9] || (_cache[9] = [createElementVNode("span", null, null, -1)]))], 8, _hoisted_1)]);
   }), 128)), withDirectives(createElementVNode("input", {
     ref: "venAutocomplete",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.inputData = $event),
@@ -236,24 +232,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: _ctx.placeholder,
     type: "text",
     maxlength: _ctx.max,
-    onInput: _cache[1] || (_cache[1] = function () {
-      return _ctx.goType && _ctx.goType(...arguments);
-    }),
-    onKeydown: [_cache[2] || (_cache[2] = withKeys(withModifiers(function () {
-      return _ctx.goEnter && _ctx.goEnter(...arguments);
-    }, ["prevent"]), ["enter"])), _cache[3] || (_cache[3] = withKeys(withModifiers(function () {
-      return _ctx.goEnter && _ctx.goEnter(...arguments);
-    }, ["prevent"]), ["tab"])), _cache[4] || (_cache[4] = withKeys(withModifiers(function () {
-      return _ctx.goBottom && _ctx.goBottom(...arguments);
-    }, ["prevent"]), ["down"])), _cache[5] || (_cache[5] = withKeys(withModifiers(function () {
-      return _ctx.goUp && _ctx.goUp(...arguments);
-    }, ["prevent"]), ["up"])), _cache[6] || (_cache[6] = withKeys(withModifiers(function () {
-      return _ctx.closeList && _ctx.closeList(...arguments);
-    }, ["prevent"]), ["esc"])), _cache[7] || (_cache[7] = withKeys(function () {
-      return _ctx.removeLast && _ctx.removeLast(...arguments);
-    }, ["backspace"]))],
+    onInput: _cache[1] || (_cache[1] = (...args) => _ctx.goType && _ctx.goType(...args)),
+    onKeydown: [_cache[2] || (_cache[2] = withKeys(withModifiers((...args) => _ctx.goEnter && _ctx.goEnter(...args), ["prevent"]), ["enter"])), _cache[3] || (_cache[3] = withKeys(withModifiers((...args) => _ctx.goEnter && _ctx.goEnter(...args), ["prevent"]), ["tab"])), _cache[4] || (_cache[4] = withKeys(withModifiers((...args) => _ctx.goBottom && _ctx.goBottom(...args), ["prevent"]), ["down"])), _cache[5] || (_cache[5] = withKeys(withModifiers((...args) => _ctx.goUp && _ctx.goUp(...args), ["prevent"]), ["up"])), _cache[6] || (_cache[6] = withKeys(withModifiers((...args) => _ctx.closeList && _ctx.closeList(...args), ["prevent"]), ["esc"])), _cache[7] || (_cache[7] = withKeys((...args) => _ctx.removeLast && _ctx.removeLast(...args), ["backspace"]))],
     class: "venAutocomplete__field"
-  }, null, 40, _hoisted_4), [[vModelText, _ctx.inputData]])]), _ctx.open ? (openBlock(), createElementBlock("div", _hoisted_5, [(openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.computedList, (item, ind) => {
+  }, null, 40, _hoisted_2), [[vModelText, _ctx.inputData]])]), _ctx.open ? (openBlock(), createElementBlock("div", _hoisted_3, [(openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.computedList, (item, ind) => {
     return openBlock(), createElementBlock("div", {
       class: normalizeClass(["venAutocomplete__item", {
         'highlight': _ctx.highlight === ind
@@ -263,7 +245,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onMouseenter: $event => _ctx.highlight = ind,
       key: 'gvs' + ind,
       onClick: $event => _ctx.selectTag(item)
-    }, toDisplayString(item), 43, _hoisted_6);
+    }, toDisplayString(item), 43, _hoisted_4);
   }), 128))])) : createCommentVNode("", true)], 2)), [[_directive_outside, _ctx.closeList]]);
 }
 
