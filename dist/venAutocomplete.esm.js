@@ -1,5 +1,7 @@
-import { defineComponent, resolveDirective, withDirectives, openBlock, createElementBlock, normalizeClass, createElementVNode, Fragment, renderList, createTextVNode, toDisplayString, withKeys, withModifiers, vModelText, createCommentVNode } from 'vue';
+import { defineComponent, resolveDirective, withDirectives, openBlock, createElementBlock, normalizeClass, createElementVNode, Fragment, renderList, createTextVNode, toDisplayString, withKeys, withModifiers, vModelText, normalizeStyle, createCommentVNode } from 'vue';
 
+const dropdownGap = 10;
+const dropdownMaxHeight = 300;
 var script = /*#__PURE__*/defineComponent({
   name: 'autocomplete',
   emits: ['update:modelValue', 'inputEvent', 'changed', 'opened'],
@@ -37,8 +39,9 @@ var script = /*#__PURE__*/defineComponent({
       this.innerValue = this.filterModel(val);
       this.$emit("changed", this.filterModel(val));
     },
-    open() {
+    open(val) {
       this.highlight = 0;
+      if (val) this.setDropdownPlacement();
       this.$emit('opened', this.open);
     },
     inputData() {
@@ -47,6 +50,11 @@ var script = /*#__PURE__*/defineComponent({
     }
   },
   computed: {
+    dropdownStyle() {
+      return {
+        maxHeight: `${this.dropdownMaxHeight}px`
+      };
+    },
     computedList() {
       let willList = this.list.filter(el => {
         return el && this.inputData && el.toLowerCase().includes(this.inputData.toLowerCase()) && !this.innerValue.find(vl => vl.toLowerCase() === el.toLowerCase());
@@ -67,7 +75,9 @@ var script = /*#__PURE__*/defineComponent({
       inputData: null,
       innerValue: this.filterModel(this.modelValue),
       open: false,
-      highlight: 0
+      highlight: 0,
+      dropdownPosition: 'bottom',
+      dropdownMaxHeight
     };
   },
   directives: {
@@ -96,11 +106,34 @@ var script = /*#__PURE__*/defineComponent({
     closeList() {
       this.open = false;
     },
-    goOpen() {
+    openList() {
+      if (!this.open) this.setDropdownPlacement();
       this.open = true;
+    },
+    goOpen() {
+      this.openList();
     },
     goClose() {
       this.closeList();
+    },
+    setDropdownPlacement() {
+      if (typeof window === 'undefined') {
+        this.dropdownPosition = 'bottom';
+        this.dropdownMaxHeight = dropdownMaxHeight;
+        return;
+      }
+      const root = this.$refs.autocompleteRoot || this.$el;
+      if (!root || !root.getBoundingClientRect) return;
+      const rect = root.getBoundingClientRect();
+      const visualViewport = window.visualViewport;
+      const viewportTop = visualViewport ? visualViewport.offsetTop : 0;
+      const viewportBottom = visualViewport ? visualViewport.offsetTop + visualViewport.height : window.innerHeight;
+      const spaceAbove = Math.max(rect.top - viewportTop - dropdownGap, 0);
+      const spaceBelow = Math.max(viewportBottom - rect.bottom - dropdownGap, 0);
+      const nextPosition = spaceBelow >= spaceAbove ? 'bottom' : 'top';
+      const nextSpace = nextPosition === 'bottom' ? spaceBelow : spaceAbove;
+      this.dropdownPosition = nextPosition;
+      this.dropdownMaxHeight = Math.max(0, Math.min(dropdownMaxHeight, Math.floor(nextSpace)));
     },
     scrolIntoList() {
       const ref = this.$refs.ohThisFuckingIndex;
@@ -187,7 +220,7 @@ var script = /*#__PURE__*/defineComponent({
     },
     goType(e) {
       // Search items
-      this.open = this.computedList.length > 0;
+      if (this.computedList.length > 0) this.openList();else this.closeList();
 
       // Disable symbols
       if (this.disabledSymbols) [...this.disabledSymbols].forEach(el => this.inputData = this.inputData.replaceAll(el, ""));
@@ -205,17 +238,14 @@ var script = /*#__PURE__*/defineComponent({
 
 const _hoisted_1 = ["onClick"];
 const _hoisted_2 = ["placeholder", "maxlength"];
-const _hoisted_3 = {
-  key: 0,
-  class: "venAutocomplete__dropdown"
-};
-const _hoisted_4 = ["onMouseenter", "onClick"];
+const _hoisted_3 = ["onMouseenter", "onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _directive_outside = resolveDirective("outside");
   return withDirectives((openBlock(), createElementBlock("div", {
     class: normalizeClass(["venAutocomplete", {
       'venAutocomplete_active': _ctx.open
-    }])
+    }]),
+    ref: "autocompleteRoot"
   }, [createElementVNode("div", {
     class: "venAutocomplete__input",
     onClick: _cache[8] || (_cache[8] = (...args) => _ctx.blurNeed && _ctx.blurNeed(...args))
@@ -237,7 +267,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onInput: _cache[1] || (_cache[1] = (...args) => _ctx.goType && _ctx.goType(...args)),
     onKeydown: [_cache[2] || (_cache[2] = withKeys(withModifiers((...args) => _ctx.goEnter && _ctx.goEnter(...args), ["prevent"]), ["enter"])), _cache[3] || (_cache[3] = withKeys(withModifiers((...args) => _ctx.goEnter && _ctx.goEnter(...args), ["prevent"]), ["tab"])), _cache[4] || (_cache[4] = withKeys(withModifiers((...args) => _ctx.goBottom && _ctx.goBottom(...args), ["prevent"]), ["down"])), _cache[5] || (_cache[5] = withKeys(withModifiers((...args) => _ctx.goUp && _ctx.goUp(...args), ["prevent"]), ["up"])), _cache[6] || (_cache[6] = withKeys(withModifiers((...args) => _ctx.closeList && _ctx.closeList(...args), ["prevent"]), ["esc"])), _cache[7] || (_cache[7] = withKeys((...args) => _ctx.removeLast && _ctx.removeLast(...args), ["backspace"]))],
     class: "venAutocomplete__field"
-  }, null, 40, _hoisted_2), [[vModelText, _ctx.inputData]])]), _ctx.open ? (openBlock(), createElementBlock("div", _hoisted_3, [(openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.computedList, (item, ind) => {
+  }, null, 40, _hoisted_2), [[vModelText, _ctx.inputData]])]), _ctx.open ? (openBlock(), createElementBlock("div", {
+    key: 0,
+    class: normalizeClass(["venAutocomplete__dropdown", {
+      'venAutocomplete__dropdown_top': _ctx.dropdownPosition === 'top',
+      'venAutocomplete__dropdown_bottom': _ctx.dropdownPosition === 'bottom'
+    }]),
+    style: normalizeStyle(_ctx.dropdownStyle)
+  }, [(openBlock(true), createElementBlock(Fragment, null, renderList(_ctx.computedList, (item, ind) => {
     return openBlock(), createElementBlock("div", {
       class: normalizeClass(["venAutocomplete__item", {
         'highlight': _ctx.highlight === ind
@@ -247,8 +284,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onMouseenter: $event => _ctx.highlight = ind,
       key: 'gvs' + ind,
       onClick: $event => _ctx.selectTag(item)
-    }, toDisplayString(item), 43, _hoisted_4);
-  }), 128))])) : createCommentVNode("", true)], 2)), [[_directive_outside, _ctx.closeList]]);
+    }, toDisplayString(item), 43, _hoisted_3);
+  }), 128))], 6)) : createCommentVNode("", true)], 2)), [[_directive_outside, _ctx.closeList]]);
 }
 
 script.render = render;

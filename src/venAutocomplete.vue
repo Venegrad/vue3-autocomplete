@@ -1,5 +1,5 @@
 <template>
-	<div class="venAutocomplete" :class="{'venAutocomplete_active': open}" v-outside="closeList">
+	<div class="venAutocomplete" :class="{'venAutocomplete_active': open}" ref="autocompleteRoot" v-outside="closeList">
 		<div class="venAutocomplete__input" @click="blurNeed">
 			<div class="venAutocomplete__selected" v-for="(item, ind) in innerValue" :key="'vv'+ind">
 				{{  item  }}
@@ -22,7 +22,15 @@
 				class="venAutocomplete__field"
 			/>
 		</div>
-		<div class="venAutocomplete__dropdown" v-if="open">
+		<div
+			class="venAutocomplete__dropdown"
+			:class="{
+				'venAutocomplete__dropdown_top': dropdownPosition === 'top',
+				'venAutocomplete__dropdown_bottom': dropdownPosition === 'bottom'
+			}"
+			:style="dropdownStyle"
+			v-if="open"
+		>
 			<div class="venAutocomplete__item" ref="ohThisFuckingIndex" @mouseenter="highlight = ind" :class="{'highlight': highlight === ind}" v-for="(item, ind) in computedList" :key="'gvs'+ind" @click="selectTag(item)">{{  item  }}</div>
 		</div>
 	</div>
@@ -30,6 +38,9 @@
 
 <script>
 	import { defineComponent } from 'vue';
+
+	const dropdownGap = 10;
+	const dropdownMaxHeight = 300;
 
 	export default /*#__PURE__*/ defineComponent({
 		name: 'autocomplete',
@@ -68,8 +79,9 @@
 				this.innerValue = this.filterModel(val);
 				this.$emit("changed", this.filterModel(val))
 			},
-			open() {
+			open(val) {
 				this.highlight = 0
+				if(val) this.setDropdownPlacement()
 				this.$emit('opened', this.open)
 			},
 			inputData() {
@@ -78,6 +90,11 @@
 			},
 		},
 		computed: {
+			dropdownStyle() {
+				return {
+					maxHeight: `${this.dropdownMaxHeight}px`
+				}
+			},
 			computedList() {
 				let willList = this.list.filter(el => {
 					return el && this.inputData && el.toLowerCase().includes(this.inputData.toLowerCase()) && !this.innerValue.find(vl => vl.toLowerCase() === el.toLowerCase())
@@ -98,7 +115,9 @@
 				inputData: null,
 				innerValue: this.filterModel(this.modelValue),
 				open: false,
-				highlight: 0
+				highlight: 0,
+				dropdownPosition: 'bottom',
+				dropdownMaxHeight
 			};
 		},
 		directives: {
@@ -127,11 +146,37 @@
 			closeList() {
 				this.open = false;
 			},
-			goOpen() {
+			openList() {
+				if(!this.open) this.setDropdownPlacement();
 				this.open = true;
+			},
+			goOpen() {
+				this.openList();
 			},
 			goClose() {
 				this.closeList()
+			},
+			setDropdownPlacement() {
+				if(typeof window === 'undefined') {
+					this.dropdownPosition = 'bottom';
+					this.dropdownMaxHeight = dropdownMaxHeight;
+					return;
+				}
+
+				const root = this.$refs.autocompleteRoot || this.$el;
+				if(!root || !root.getBoundingClientRect) return;
+
+				const rect = root.getBoundingClientRect();
+				const visualViewport = window.visualViewport;
+				const viewportTop = visualViewport ? visualViewport.offsetTop : 0;
+				const viewportBottom = visualViewport ? visualViewport.offsetTop + visualViewport.height : window.innerHeight;
+				const spaceAbove = Math.max(rect.top - viewportTop - dropdownGap, 0);
+				const spaceBelow = Math.max(viewportBottom - rect.bottom - dropdownGap, 0);
+				const nextPosition = spaceBelow >= spaceAbove ? 'bottom' : 'top';
+				const nextSpace = nextPosition === 'bottom' ? spaceBelow : spaceAbove;
+
+				this.dropdownPosition = nextPosition;
+				this.dropdownMaxHeight = Math.max(0, Math.min(dropdownMaxHeight, Math.floor(nextSpace)));
 			},
 			scrolIntoList() {
 				const ref = this.$refs.ohThisFuckingIndex;
@@ -221,7 +266,8 @@
 			goType(e) {
 
 				// Search items
-				this.open = this.computedList.length > 0
+				if(this.computedList.length > 0) this.openList()
+				else this.closeList()
 
 				// Disable symbols
 				if(this.disabledSymbols) [...this.disabledSymbols].forEach(el => this.inputData = this.inputData.replaceAll(el, ""))
@@ -262,6 +308,20 @@
 	max-height: 300px;
 	overflow: auto;
 	border-radius: 10px;
+}
+
+.venAutocomplete__dropdown_bottom {
+	top: 100%;
+	bottom: auto;
+	margin-top: 10px;
+	margin-bottom: 0;
+}
+
+.venAutocomplete__dropdown_top {
+	top: auto;
+	bottom: 100%;
+	margin-top: 0;
+	margin-bottom: 10px;
 }
 
 .venAutocomplete * {

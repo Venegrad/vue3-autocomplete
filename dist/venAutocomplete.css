@@ -21,6 +21,18 @@
 	overflow: auto;
 	border-radius: 10px;
 }
+.venAutocomplete__dropdown_bottom {
+	top: 100%;
+	bottom: auto;
+	margin-top: 10px;
+	margin-bottom: 0;
+}
+.venAutocomplete__dropdown_top {
+	top: auto;
+	bottom: 100%;
+	margin-top: 0;
+	margin-bottom: 10px;
+}
 .venAutocomplete * {
 	box-sizing: border-box;
 }
